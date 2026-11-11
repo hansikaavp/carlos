@@ -30,6 +30,7 @@
 <%@ page import="io.github.carlos_emr.carlos.integration.patientportal.PortalStaffContextResolver" %>
 <%@ page import="io.github.carlos_emr.carlos.managers.SecurityInfoManager" %>
 <%@ page import="io.github.carlos_emr.carlos.utility.LoggedInInfo" %>
+<%@ page import="io.github.carlos_emr.carlos.integration.patientportal.PatientPortalSettings" %>
 <%@ page import="io.github.carlos_emr.carlos.utility.SpringUtils" %>
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt" %>
 <%@ taglib uri="carlos" prefix="carlos" %>
@@ -42,6 +43,7 @@
     SecurityInfoManager portalSecurity = SpringUtils.getBean(SecurityInfoManager.class);
     String portalPatientScope = String.valueOf(portalPatient);
     if (portalPatient <= 0 || portalSession == null
+    || !PatientPortalSettings.isConfigured()
             || !portalSecurity.hasPrivilege(portalSession, "_demographic", SecurityInfoManager.READ, portalPatientScope)
             || !portalSecurity.isAllowedAccessToPatientRecord(portalSession, portalPatient)
             || !portalSecurity.hasPrivilege(portalSession, PortalStaffContextResolver.OBJECT_BOOKING_PROMPT,
